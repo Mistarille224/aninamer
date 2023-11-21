@@ -2,7 +2,7 @@ from tomllib import load as toml_load
 from toml import dump
 from pathlib import Path
 
-def toml():
+def create_conf():
     # 引入配置文件
     toml_path = Path('./conf/config.toml')
     if not toml_path.exists():
@@ -15,7 +15,7 @@ def toml():
         with open('./conf/config.toml','rb') as r:
             data = toml_load(r) 
 
-toml()
+create_conf()
 
 with open('./conf/config.toml','rb') as r:
     data = toml_load(r) 

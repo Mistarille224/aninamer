@@ -6,7 +6,6 @@ def rename():
     # 引入配置文件
     before =['"' + bef + '"' for bef in data["special"]["special_before"]]
     after =['"' + aft + '"' for aft in data["special"]["special_after"]]
-    replace = [f'{bef},{aft}' for bef, aft in zip(before,after)]
 
     # 引入处理目录
     path = Path(rf'{data["path"]["input_path"]}')
@@ -17,10 +16,11 @@ def rename():
     # 处理规则
     for names in files:
        if '[' in names:
-           # 将配置文件转换为代码
-            special = eval('names.replace(' + ').replace('.join(replace) + ')')
+             # 将配置文件转换为代码
+            for item1,item2 in zip(before,after):
+                names = names.replace(item1,item2)
             # 固有配置
-            standardize = special.replace('[1080P]', '').replace(' - ', ' ').replace('[1080p]', '').replace("Season ","S").replace(' [', '[').replace('] ', ']').replace('(', '<').replace(')', '>')
+            standardize = names.replace('[1080P]', '').replace(' - ', ' ').replace('[1080p]', '').replace("Season ","S").replace(' [', '[').replace('] ', ']').replace('(', '<').replace(')', '>')
             substitute = standardize.replace('[', '(').replace(']', ')')
             episode = substitute.replace('(0', ' E0').replace('(1', ' E1').replace('(2', ' E2').replace(' 0', ' E0').replace(' 1', ' E1').replace(' 2', ' E2')
             remove_brackets = sub(r'\([^)]*\)', '', episode)

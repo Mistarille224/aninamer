@@ -5,10 +5,10 @@ from log import log_path,today_date,clean_log
 from watcher import MyHandler
 from tray import create_tray_icon
 from pathlib import Path
-from conf import data,toml
+from conf import data,create_conf
 
 # 创建配置文件
-toml()
+create_conf()
 
 # 创建当日日志
 mk_log = Path('log')

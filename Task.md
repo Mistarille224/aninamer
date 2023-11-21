@@ -3,6 +3,7 @@
 - [x] Rename by script.
 - [x] ~~Scheduled tasks implemented by the command line. (obsolete)~~
 - [x] Import Configuration file. (toml)
+  - [x] Auto generate Configuration file
   - [x] Modify special items. 
     - [x] Modify the before and after items individually. 
     - [x] Optimize import logic.
