@@ -1,6 +1,5 @@
 [path]
 input_path = "D:/download/videohlink/anime"
 
-[special]
-special_before = [ "[Nekomoe kissaten][", "16bit ", "S2",]
-special_after = [ "", "Sixteen bit ", "S02",]
+[rules]
+special = [["[Nekomoe kissaten][", ""], ["S2", "S02"]]

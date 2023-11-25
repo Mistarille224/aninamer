@@ -8,7 +8,7 @@ def create_conf():
     if not toml_path.exists():
         mk_conf = Path('conf')
         mk_conf.mkdir(exist_ok=True)
-        init = {'path': {'input_path': 'D:/download/videohlink/anime'}, 'special': {'special_before': ['[Nekomoe kissaten][', '16bit ', 'S2'], 'special_after': ['', 'Sixteen bit ', 'S02']}}
+        init = {'path': {'input_path': 'D:/download/videohlink/anime'}, 'rules': {'special': [["[Nekomoe kissaten][","",],["S2", "S02",],]}}
         with open('./conf/config.toml', 'w') as w:
             dump(init, w)
         w.close

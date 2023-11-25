@@ -15,6 +15,7 @@
   - [x] fix folder display bug.
 - [x] Auto delete outdated log file.
 - [x] Code standardization.
+- [ ] Start automatically at boot
 - [x] Packaged as exe.
   - [ ] Automatic packaging.
 - [ ] Support Linux.

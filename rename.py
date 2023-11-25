@@ -1,11 +1,17 @@
 from re import sub
 from pathlib import Path
 from conf import data
+from copy import deepcopy
 
 def rename():
     # 引入配置文件
-    before =['"' + bef + '"' for bef in data["special"]["special_before"]]
-    after =['"' + aft + '"' for aft in data["special"]["special_after"]]
+    before = []
+    after = []
+    for sp in  data["rules"]["special"]:
+        # 把元组的第一项转换为字符串并添加到first_items列表中
+        before.append(str(sp[0]))
+        # 把元组的第二项转换为字符串并添加到second_items列表中
+        after.append(str(sp[1]))
 
     # 引入处理目录
     path = Path(rf'{data["path"]["input_path"]}')
@@ -15,11 +21,12 @@ def rename():
 
     # 处理规则
     for names in files:
-       if '[' in names:
-             # 将配置文件转换为代码
-            for item1,item2 in zip(before,after):
-                names = names.replace(item1,item2)
-            # 固有配置
+        origin = deepcopy(names)
+        if '[' in names:
+             # 引入特殊配置
+            for bfr,aft in zip(before,after):
+                names = names.replace(bfr,aft)
+            # 引入固有配置
             standardize = names.replace('[1080P]', '').replace(' - ', ' ').replace('[1080p]', '').replace("Season ","S").replace(' [', '[').replace('] ', ']').replace('(', '<').replace(')', '>')
             substitute = standardize.replace('[', '(').replace(']', ')')
             episode = substitute.replace('(0', ' E0').replace('(1', ' E1').replace('(2', ' E2').replace(' 0', ' E0').replace(' 1', ' E1').replace(' 2', ' E2')
@@ -27,7 +34,7 @@ def rename():
             new_names = remove_brackets.replace(')', '').replace('<', '(').replace('>', ')')
         
             #字符串转换为目录
-            filenames = Path(names)
+            filenames = Path(origin)
             new_filenames = Path(new_names)
             # 重命名操作
             filenames.rename(new_filenames)
