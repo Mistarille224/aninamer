@@ -1,6 +1,6 @@
 # Aninamer
 ![Aninamer](./icon/icon.png)
-##### 一个自动重命名软件，可以与RSS动画订阅和如emby等的刮削软件配合使用。
+### 一个自动重命名软件，可以与RSS动画订阅和如emby等刮削软件配合使用。
 
 <a href="README.md">English README file
 
