@@ -20,7 +20,7 @@
 
 2. Note that you **must ensure that the directory does not contain** `[`,`]`,`<`, `>` ,`-`. Better make sure the programs you subscribe to have a basic classification. It's better to have a name and season number like this.
 
- ![basic classification](image\basic classification.png)
+ ![basic classification](./image/basic classification.png)
 
 3. Type the directory you want to detect in the configuration file, such as `D:\download\anime` in the picture above. You can directly edit the files in the conf folder. If the software is running normally, you can right-click the system tray icon to open the configuration file.
 
