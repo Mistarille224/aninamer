@@ -4,18 +4,16 @@ input_path = "D:/download/videohlink/anime"
 [rules]
 special = [
     [
-        [
-            "[Nekomoe kissaten][",
-            "",
-        ],
-        [
-            "S2",
-            "S02",
-        ],
-        [
-            " 16bit",
-            " sixteen bit",
-        ],
+        "[Nekomoe kissaten][",
+        "",
+    ],
+    [
+        "S2",
+        "S02",
+    ],
+    [
+        " 16bit",
+        " sixteen bit",
     ],
 ]
 

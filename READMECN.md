@@ -16,7 +16,7 @@
 
 2. 注意，你**必须确保目录中不包含**`[`,`]`,`<`, `>` ,`-`。最好确保你订阅的节目有一个基本的分类。最好有一个像这样的名称和季数。
 
-   ![basic classification](image\basic classification.png)
+   ![basic classification](./image/basic_classification.png)
 
 3. 在配置文件里输入你要检测的目录，比如上图的 `D:\download\anime`。你可以直接编辑conf文件夹下的文件，打开软件之后，可以右键系统托盘图标来打开配置文件。
 
