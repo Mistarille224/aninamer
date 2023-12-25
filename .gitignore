@@ -4,5 +4,9 @@
 __pycache__
 
 log
+pyinstaller.bat
+build
+dist
+aninamer.spec
 
 *private*
