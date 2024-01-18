@@ -1,6 +1,8 @@
 import pystray
 from PIL import Image
 from os import _exit ,system
+from watcher import rename
+
 # 创建系统托盘图标
 def create_tray_icon():
     # 从图片文件中加载图标
@@ -8,7 +10,8 @@ def create_tray_icon():
 
     # 创建系统托盘菜单
     menu = (
-        pystray.MenuItem("打开应用(制作中,点击打开config文件)", lambda: open_app()),
+        pystray.MenuItem("手动重命名", lambda: rename()),
+        pystray.MenuItem("点击打开config文件", lambda: open_app()),
         pystray.MenuItem("退出", lambda: exit_app())
     )
 

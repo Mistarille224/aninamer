@@ -1,7 +1,5 @@
-import logging
-from pathlib import Path
 from conf import create_conf
-from log import log_path,today_date,clean_log
+from log import create_log,clean_log
 from tray import create_tray_icon
 from watcher import watch
 
@@ -10,11 +8,7 @@ from watcher import watch
 create_conf()
 
 # 创建当日日志
-mk_log = Path('log')
-mk_log.mkdir(exist_ok=True)
-logging.basicConfig(filename=f'{log_path}{today_date} change.txt',encoding='utf-8',level=logging.INFO,
-                    format='%(asctime)s - %(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S')
+create_log()
 
 # 清除一月前日志
 clean_log()
