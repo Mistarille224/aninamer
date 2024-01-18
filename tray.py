@@ -6,7 +6,7 @@ from watcher import rename
 # 创建系统托盘图标
 def create_tray_icon():
     # 从图片文件中加载图标
-    image = Image.open("./icon/icon.png")
+    image = Image.open("./icon/icon.ico")
 
     # 创建系统托盘菜单
     menu = (
@@ -33,3 +33,5 @@ def open_app():
 def exit_app():
     # TODO: 退出应用的具体逻辑
     _exit(0)
+
+create_tray_icon()
