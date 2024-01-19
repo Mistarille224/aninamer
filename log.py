@@ -5,6 +5,17 @@ from pathlib import Path
 
 log_path = './log/'
 today_date = str(date.today())
+
+def create_log():
+    global log_path
+    global today_date
+
+    create_log = Path('log')
+    create_log.mkdir(exist_ok=True)
+    logging.basicConfig(filename=f'{log_path}{today_date} change.txt',encoding='utf-8',level=logging.INFO,format='%(asctime)s - %(message)s',datefmt='%Y-%m-%d %H:%M:%S')
+
+create_log()
+
 def clean_log():
     global log_path
     global today_date
@@ -26,10 +37,4 @@ def clean_log():
             if(os.path.exists(file_path)):
                 os.remove(file_path)
 
-def create_log():
-    global log_path
-    global today_date
-
-    create_log = Path('log')
-    create_log.mkdir(exist_ok=True)
-    logging.basicConfig(filename=f'{log_path}{today_date} change.txt',encoding='utf-8',level=logging.INFO,format='%(asctime)s - %(message)s',datefmt='%Y-%m-%d %H:%M:%S')
+clean_log()
