@@ -26,9 +26,9 @@
 
 4. Run the software. This should now work for most filenames and you can refresh your scraping software to get the metadata for each episode.
 
-5. If you want, you can also add a shortcut to the `startup` folder to let the software run automatically when booting. Put `win`+`R` and type `shell:startup` to open your `startup` folder. You can right-click the system tray icon to open the configuration file, or directly edit the file in the `conf` folder
+5. If you want, you can also add a shortcut to the `startup` folder to let the software run automatically when booting. Put `win`+`R` and type `shell:startup` to open your `startup` folder.
 
-6. If you get bad results, it may be that the original name does not match the program well. You can try to use your wisdom to add special items in the configuration file (the modification will take effect immediately) and change the file back to its original name so that the program can be renamed to solve the problem. Usually this is because the main title is in brackets, or the main title contains Arabic numerals. The former can be solved by replacing all the characters before the main title with ""; for the latter, I suggest you replace the Arabic numerals (such as 16) with English (sixteen), but if there is an episode 16, there is nothing I can do , you can only choose to modify it manually in that episode. Just make sure that the modified file name does not contain `[`,`]`, and your changes will not be overwritten by the software.
+6. If you get bad results, it may be that the original name does not match the program well. You can try to use your wisdom to add special items in the configuration file (the modification will take effect immediately) and change the file back to its original name so that the program can be renamed to solve the problem. Usually this is because the main title is in brackets. The former can be solved by replacing all the characters before the main title with "" in the configuration file. You can right-click the system tray icon to open the configuration file, or directly edit the file in the `conf` folder.  If you want to modify some file manually, make sure that the modified file name does not contain `[`,`]`, and your changes will not be overwritten by the software.
 
 ## working for：
 
