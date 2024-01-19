@@ -2,7 +2,7 @@
 input_path = "D:/download/videohlink/anime"
 
 [rules]
-special = [["[Nekomoe kissaten][", ""], ["S2", "S02"]]
+special = [ [ "[Nekomoe kissaten][", "",], [ "S2", "S02",],]
 
 # 参考上文修改配置文件。确保标题不被包括在[]内，否则参考 *把"[Nekomoe kissaten]["替换成""即为删除。*  来让标题暴露出来。
 # special按格式添加新条目就好,前一项是修改前的,后一项是修改后的。如果觉得不喜欢这两项,可以删除,但通常是不必要的。
@@ -14,6 +14,6 @@ special = [["[Nekomoe kissaten][", ""], ["S2", "S02"]]
 # Refer to the above to modify the configuration file. Make sure the title is not surrounded by [], If not, please refer to *Replace "[Nekomoe kissaten][" with "" to delete.* to expose the title.
 # Special Just add new entries according to the format. The former item is before modification, and the latter item is after modification. You can delete these items if you feel you don't like them, but they are usually unnecessary.
 # The deletion method is as shown in the first item. Replace "[Nekomoe kissaten][" with "" to delete.
-# The modification method is as shown in the second item, replacing "S2" with "S02" to modifiy.
+# The modification method is as shown in the second item, replacing "S2" with "S02" to modify.
 # If there are problems after modification or there are various situations where you want to restore the initial state, just delete the toml file and the program will regenerate a default configuration file for you.
-# So, it’s the first time to meet, or it may be modified again, or it may be deleted and started again, no matter what, GOOD LUCK!
+# So, it's the first time to meet, or it may be modified again, or it may be deleted and started again, no matter what, GOOD LUCK!
