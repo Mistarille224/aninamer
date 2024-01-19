@@ -7,6 +7,5 @@ log
 pyinstaller.bat
 build
 dist
-aninamer.spec
 
 *private*
