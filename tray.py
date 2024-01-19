@@ -1,7 +1,7 @@
 import pystray
 from PIL import Image
 from os import _exit ,system
-from watcher import rename
+from rename import rename
 
 # 创建系统托盘图标
 def create_tray_icon():
