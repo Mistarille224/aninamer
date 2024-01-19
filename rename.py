@@ -27,13 +27,14 @@ def rename():
             for bfr,aft in zip(before,after):
                 names = names.replace(bfr,aft)
             # 引入固有配置
-            standardize = names.replace('[1080P]', '').replace('-', '').replace('[1080p]', '').replace("Season ","S").replace(' [', '[').replace('] ', ']').replace('(', '<').replace(')', '>')
+            standardize = names.replace('[1080P]', '').replace('-', '').replace('[1080p]', '').replace('Season ','S').replace('(', '<').replace(')', '>')
             substitute = standardize.replace('[', '(').replace(']', ')')
             episode = substitute.replace('(0', ' E0').replace('(1', ' E1').replace('(2', ' E2').replace(' 0', ' E0').replace(' 1', ' E1').replace(' 2', ' E2')
             remove_brackets = sub(r'\([^)]*\)', '', episode)
-            if '  ' in remove_brackets:
-                remove_brackets = remove_brackets.replace("  ", " ")
-            new_names = remove_brackets.replace(')', '').replace('<', '(').replace('>', ')')
+            while '  ' in remove_brackets:
+                remove_brackets = remove_brackets.replace('  ', ' ')
+            remove_space = remove_brackets.replace(' .', '.')
+            new_names = remove_space.replace(')', '').replace('<', '(').replace('>', ')')
         
             #字符串转换为目录
             filenames = Path(origin)
