@@ -27,13 +27,14 @@ def rename():
             for bfr,aft in zip(before,after):
                 names = names.replace(bfr,aft)
             # 引入固有配置
-            standardize = names.replace('[1080P]', '').replace('-', '').replace('[1080p]', '').replace('Season ','S').replace('(', '<').replace(')', '>')
+            standardize = names.replace('-', ' ').replace('_', ' ').replace('Season ','S').replace('(', '<').replace(')', '>').replace('v2', '')
             substitute = standardize.replace('[', '(').replace(']', ')')
-            episode = substitute.replace('(0', ' E0').replace('(1', ' E1').replace('(2', ' E2').replace(' 0', ' E0').replace(' 1', ' E1').replace(' 2', ' E2')
-            remove_brackets = sub(r'\([^)]*\)', '', episode)
-            while '  ' in remove_brackets:
-                remove_brackets = remove_brackets.replace('  ', ' ')
-            remove_space = remove_brackets.replace(' .', '.')
+            episode = sub(r'\((\d+)\)', lambda match: ' E' + match.group(1) + ' ', substitute)
+            episode = sub(r'\s(\d+)\s', lambda match: ' E' + match.group(1) + ' ', episode)
+            simplify = sub(r'\([^)]*\)', '', episode)
+            while '  ' in simplify:
+                simplify = simplify.replace('  ', ' ')
+            remove_space = simplify.replace(' .', '.')
             new_names = remove_space.replace(')', '').replace('<', '(').replace('>', ')')
         
             #字符串转换为目录
