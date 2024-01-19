@@ -35,3 +35,5 @@ def watch():
             sleep(20)
     except KeyboardInterrupt:
         observer.stop()
+
+watch()
