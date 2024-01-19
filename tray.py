@@ -33,5 +33,3 @@ def open_app():
 def exit_app():
     # TODO: 退出应用的具体逻辑
     _exit(0)
-
-create_tray_icon()

@@ -42,5 +42,3 @@ def rename():
             new_filenames = Path(new_names)
             # 重命名操作
             filenames.rename(new_filenames)
-
-rename()

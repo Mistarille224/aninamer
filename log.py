@@ -14,8 +14,6 @@ def create_log():
     create_log.mkdir(exist_ok=True)
     logging.basicConfig(filename=f'{log_path}{today_date} change.txt',encoding='utf-8',level=logging.INFO,format='%(asctime)s - %(message)s',datefmt='%Y-%m-%d %H:%M:%S')
 
-create_log()
-
 def clean_log():
     global log_path
     global today_date
@@ -36,5 +34,3 @@ def clean_log():
         elif(log_year < today_year):
             if(os.path.exists(file_path)):
                 os.remove(file_path)
-
-clean_log()

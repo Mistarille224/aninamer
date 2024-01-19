@@ -17,7 +17,5 @@ def create_conf():
         w.close
         system(f'start {"./conf/config.toml"}')
 
-create_conf()
-
 with open('./conf/config.toml','rb') as r:
     data = toml_load(r) 
