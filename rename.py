@@ -27,11 +27,13 @@ def rename():
             for bfr,aft in zip(before,after):
                 names = names.replace(bfr,aft)
             # 引入固有配置
-            standardize = names.replace('-', ' ').replace('_', ' ').replace('Season ','S').replace('(', '<').replace(')', '>').replace('v2', '')
+            standardize = names.replace('_', ' ').replace('Season ','S').replace('(', '<').replace(')', '>').replace('v2', '')
             substitute = standardize.replace('[', '(').replace(']', ')')
             episode = sub(r'\((\d+)\)', lambda match: ' E' + match.group(1) + ' ', substitute)
             episode = sub(r'\s(\d+)\s', lambda match: ' E' + match.group(1) + ' ', episode)
-            simplify = sub(r'\([^)]*\)', '', episode)
+            episode = sub(r'(\d+)\-(\d+)', lambda match: ' E' + match.group(1) + ' ', episode)
+            simplify = sub(r'(\D+)\-(\D+)', lambda match: match.group(1).replace ('-', ' '), episode)
+            simplify = sub(r'\([^)]*\)', '', simplify)
             while '  ' in simplify:
                 simplify = simplify.replace('  ', ' ')
             remove_space = simplify.replace(' .', '.')
