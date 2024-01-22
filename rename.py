@@ -32,7 +32,7 @@ def rename():
             episode = sub(r'\((\d+)\)', lambda match: ' E' + match.group(1) + ' ', substitute)
             episode = sub(r'\s(\d+)\s', lambda match: ' E' + match.group(1) + ' ', episode)
             episode = sub(r'(\d+)\-(\d+)', lambda match: ' E' + match.group(1) + ' ', episode)
-            simplify = sub(r'(\D+)\-(\D+)', lambda match: match.group(1).replace ('-', ' '), episode)
+            simplify = sub(r'(\D)\-(\D)', lambda match: match.group(1).replace ('-', ' '), episode)
             simplify = sub(r'\([^)]*\)', '', simplify)
             while '  ' in simplify:
                 simplify = simplify.replace('  ', ' ')
@@ -44,3 +44,5 @@ def rename():
             new_filenames = Path(new_names)
             # 重命名操作
             filenames.rename(new_filenames)
+
+rename()
