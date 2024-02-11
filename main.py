@@ -2,12 +2,9 @@ from conf import create_conf
 from log import create_log,clean_log
 from tray import create_tray_icon
 from watcher import watch
-from tendo import singleton
 import threading
 
 if __name__ == '__main__':
-    me = singleton.SingleInstance()
-     
     # 创建配置文件
     create_conf()
     # 创建当日日志

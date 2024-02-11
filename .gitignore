@@ -8,5 +8,6 @@ pyinstaller.bat
 build
 dist
 conf
+program.lock
 
 *private*

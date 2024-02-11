@@ -4,11 +4,13 @@ from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 from time import sleep
 from conf import data
+from season import season_move
 
 class MyHandler(FileSystemEventHandler):
     def on_created(self, event):
         # 处理文件新增事件
         rename()
+        season_move()
     
     def on_deleted(self, event):
         # 处理文件删除事件

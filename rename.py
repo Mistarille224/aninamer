@@ -20,14 +20,14 @@ def rename():
     files = [str(file_path) for file_path in path.glob('**/*') if file_path.is_file()]
 
     # 处理规则
-    for names in files:
-        origin = deepcopy(names)
-        if '[' in names:
+    for name in files:
+        origin = deepcopy(name)
+        if '[' in name:
              # 引入特殊配置
             for bfr,aft in zip(before,after):
-                names = names.replace(bfr,aft)
+                name = name.replace(bfr,aft)
             # 引入固有配置
-            standardize = names.replace('_', ' ').replace('Season ','S').replace('(', '<').replace(')', '>').replace('v2', '')
+            standardize = name.replace('_', ' ').replace('Season ','S').replace('(', '<').replace(')', '>').replace('v2', '')
             substitute = standardize.replace('[', '(').replace(']', ')')
             episode = sub(r'\((\d+)\)', lambda match: ' E' + match.group(1) + ' ', substitute)
             episode = sub(r'\s(\d+)\s', lambda match: ' E' + match.group(1) + ' ', episode)
@@ -36,6 +36,7 @@ def rename():
             simplify = sub(r'\([^)]*\)', '', simplify)
             while '  ' in simplify:
                 simplify = simplify.replace('  ', ' ')
+            simplify = sub(r'^ ','', simplify)
             remove_space = simplify.replace(' .', '.')
             new_names = remove_space.replace(')', '').replace('<', '(').replace('>', ')')
         
