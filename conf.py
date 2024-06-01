@@ -1,7 +1,7 @@
 from tomllib import load as toml_load
 from toml import dumps
 from pathlib import Path
-from os import system
+from os import system,_exit
 
 def create_conf():
     # 引入配置文件
@@ -16,6 +16,7 @@ def create_conf():
             w.write(toml_str)
         w.close
         system(f'start {"./conf/config.toml"}')
+        _exit(0)
 
 create_conf()
 
