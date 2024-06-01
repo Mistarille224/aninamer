@@ -18,6 +18,17 @@ def rename():
 
     # 递归子文件夹
     files = [str(file_path) for file_path in path.glob('**/*') if file_path.is_file()]
+    
+    origin_path = Path(rf'{data["path"]["origin_path"]}')    
+    if not origin_path == "":
+        origin_files = [str(file_path) for file_path in origin_path.glob('**/*') if file_path.is_file()]
+        for origin_name in origin_files:
+         if 'v2' in origin_name:
+            if origin_name.replace('[v2]', '') in origin_files:
+                Path(origin_name.replace('[v2]', '')).unlink()
+            else:
+                if origin_name.replace('v2', '') in origin_files:
+                    Path(origin_name.replace('v2', '')).unlink()
 
     # 处理规则
     for name in files:
@@ -38,12 +49,12 @@ def rename():
                 simplify = simplify.replace('  ', ' ')
             simplify = sub(r'^ ','', simplify)
             remove_space = simplify.replace(' .', '.')
-            new_names = remove_space.replace(')', '').replace('<', '(').replace('>', ')')
-        
-            #字符串转换为目录
-            filenames = Path(origin)
-            new_filenames = Path(new_names)
+            new_name = remove_space.replace(')', '').replace('<', '(').replace('>', ')')
+
+            if 'v2' in origin:
+                if new_name in files:
+                    Path(new_name).unlink()
             # 重命名操作
-            filenames.rename(new_filenames)
+            Path(origin).rename(Path(new_name))
 
 rename()
