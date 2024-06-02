@@ -24,11 +24,13 @@ def rename():
         origin_files = [str(file_path) for file_path in origin_path.glob('**/*') if file_path.is_file()]
         for origin_name in origin_files:
          if 'v2' in origin_name:
-            if origin_name.replace('[v2]', '') in origin_files:
-                Path(origin_name.replace('[v2]', '')).unlink()
-            else:
-                if origin_name.replace('v2', '') in origin_files:
-                    Path(origin_name.replace('v2', '')).unlink()
+            if origin_name.replace('v2', '') in origin_files:
+                    n = origin_name.replace('v2', '')
+                    if '[]' in n:
+                        Path(n).replace('[]', '').unlink()
+                    else:
+                        Path(n).unlink()
+
 
     # 处理规则
     for name in files:
