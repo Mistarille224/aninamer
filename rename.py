@@ -40,7 +40,7 @@ def rename():
             for bfr,aft in zip(before,after):
                 name = name.replace(bfr,aft)
             # 引入固有配置
-            standardize = name.replace('_', ' ').replace('Season ','S').replace('(', '<').replace(')', '>').replace('v2', '')
+            standardize = name.replace('_', ' ').replace('(', '<').replace(')', '>').replace('v2', '')
             substitute = standardize.replace('[', '(').replace(']', ')')
             episode = sub(r'\((\d+)\)', lambda match: ' E' + match.group(1) + ' ', substitute)
             episode = sub(r'\s(\d+)\s', lambda match: ' E' + match.group(1) + ' ', episode)

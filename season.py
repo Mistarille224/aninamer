@@ -21,19 +21,16 @@ def season_move():
     sub_paths = get_list(path,False)
     for sub_path in sub_paths:
         # 循环检测有'-'的文件夹
-        while search(r'S\d+-',sub_path):
+        while search(r'\d+-',sub_path):
             # 保留原文件目录
             origins = get_list(sub_path)
             num_origins = [(get_number(r'E\d+',ep),PurePosixPath(ep).suffix) for ep in origins]
             # 文件名合法化
-            Season = get_number(r'S\d+-',sub_path)
-            if Season >= 10:
-                sub_path = sub(r'S\d+-','S'+str(Season-1),sub_path)
-            else:
-                sub_path = sub(r'S\d+-','S0'+str(Season-1),sub_path)
+            Season = get_number(r'\d+-',sub_path)
+            sub_path = sub(r'\d+-',str(Season-1),sub_path)
             # 回到循环
             if sub_path + '-' in sub_paths:
-                sub_path = sub_path + '-'
+                sub_path = sub_path + '-'   
             # 提取上季视频文件
             last_s = get_list(sub_path)
             last_v = []
