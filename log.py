@@ -1,36 +1,25 @@
-import os
 from datetime import date
 import logging
 from pathlib import Path
 
-log_path = './log/'
-today_date = str(date.today())
+log_path = Path('./log/')
+today_date = date.today().isoformat()
 
 def create_log():
-    global log_path
-    global today_date
-
-    create_log = Path('log')
-    create_log.mkdir(exist_ok=True)
-    logging.basicConfig(filename=f'{log_path}{today_date} change.txt',encoding='utf-8',level=logging.INFO,format='%(asctime)s - %(message)s',datefmt='%Y-%m-%d %H:%M:%S')
+    log_path.mkdir(exist_ok=True)
+    logging.basicConfig(
+        filename=log_path / f'{today_date} change.txt',
+        encoding='utf-8',
+        level=logging.INFO,
+        format='%(asctime)s - %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S'
+    )
 
 def clean_log():
-    global log_path
-    global today_date
-	
-    # 遍历目录下的所有日志文件
-    for log in os.listdir(log_path):
-        file_path = log_path + log      
+    today_year, today_month = date.today().year, date.today().month
 
-    # 获取日志的年月，和今天的年月
-        today_month = int(today_date[5:7])# 今天的月份
-        log_month = int(log[5:7])# 日志的月份
-        today_year = int(today_date[0:4])# 今天的年份
-        log_year = int(log[0:4])# 日志的年份
-    # 对上个月的日志进行清理
-        if(log_month < today_month):
-            if(os.path.exists(file_path)):# 判断生成的路径对不对，防止报错
-                os.remove(file_path)# 删除文件
-        elif(log_year < today_year):
-            if(os.path.exists(file_path)):
-                os.remove(file_path)
+    for log in log_path.iterdir():
+        if log.is_file():
+            log_year, log_month = int(log.stem[:4]), int(log.stem[5:7])
+            if log_year < today_year or (log_year == today_year and log_month < today_month):
+                log.unlink()

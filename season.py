@@ -1,50 +1,48 @@
-from re import findall,sub,search
-from pathlib import Path,PurePosixPath
-from conf import data
+from pathlib import Path, PurePosixPath
+from re import findall, sub, search
 from shutil import move
+from time import sleep
+from conf import data
 
 
-path = rf'{data["path"]["input_path"]}'
+input_path = rf'{data["path"]["input_path"]}'
 
-# 获取文件列表
-def get_list(scripts,bool=True):
-    if bool is False:
-        return [str(file_path) for file_path in Path(scripts).glob('**/*') if file_path.is_dir()]
+# 遍历文件生成列表
+def get_file_list(directory, include_files=True):
+    if include_files:
+        return [str(file_path) for file_path in Path(directory).iterdir() if file_path.is_file()]
     else:
-        return [str(file_path) for file_path in Path(scripts).iterdir() if file_path.is_file()]
+        return [str(file_path) for file_path in Path(directory).glob('**/*') if file_path.is_dir()]
 
 # 提取规则内数字
-def get_number(re,scripts):
-     return int(sub(r'\D+','',str(findall(re,scripts))))
+def extract_number(pattern, text):
+    return int(sub(r'\D+', '', str(findall(pattern, text))))
 
-def season_move():
-    sub_paths = get_list(path,False)
+# 移动文件
+def move_season_files():
+    sub_paths = get_file_list(input_path, include_files=False)
     for sub_path in sub_paths:
-        # 循环检测有'-'的文件夹
-        while search(r'\d+-',sub_path):
-            # 保留原文件目录
-            origins = get_list(sub_path)
-            num_origins = [(get_number(r'E\d+',ep),PurePosixPath(ep).suffix) for ep in origins]
-            # 文件名合法化
-            Season = get_number(r'\d+-',sub_path)
-            sub_path = sub(r'\d+-',str(Season-1),sub_path)
-            # 回到循环
+        while search(r'\d+-', sub_path):
+            original_files = get_file_list(sub_path)
+            num_origins = [(extract_number(r'E\d+', ep), PurePosixPath(ep).suffix) for ep in original_files]
+            season_number = extract_number(r'\d+-', sub_path)
+            sub_path = sub(r'\d+-', str(season_number - 1), sub_path)
             if sub_path + '-' in sub_paths:
-                sub_path = sub_path + '-'   
-            # 提取上季视频文件
-            last_s = get_list(sub_path)
-            last_v = []
-            for item in last_s:
-                if item.endswith(('.mp4','.mkv','.flv','.mov','.avi')) and '..'not in item :
-                    last_v.append(item)
-            #获得最大值
-            num_last = [(get_number(r'E\d+',ep), ep) for ep in last_v]
-            last_ep = sub(r'.\w+$','',max(num_last, key=lambda x: x[0])[1])
-            last_num = sub(r'\d+$','',last_ep)
-            #重命名
-            for origin,num_origin in zip(origins,num_origins):
-                num_origin = last_num + str(get_number(r'E\d+',last_ep) + num_origin[0]) +'.' + num_origin[1]
-                # 移动文件
-                move(origin, num_origin)
+                sub_path += '-'
+            last_season_files = get_file_list(sub_path)
+            video_files = [item for item in last_season_files if item.endswith(('.mp4', '.mkv', '.flv', '.mov', '.avi')) and '..' not in item]
+            ep_list = [(extract_number(r'E\d+', ep), ep) for ep in video_files]
+            final_ep = sub(r'.\w+$', '', max(ep_list, key=lambda x: x))
+            final_num = sub(r'\d+$', '', final_ep)
+            for origin, num_origin in zip(original_files, num_origins):
+                new_name = final_num + str(extract_number(r'E\d+', final_ep) + num_origin) + '.' + num_origin
+                try:
+                    move(origin, new_name)
+                except Exception as e:
+                    sleep(1)
+                    try:
+                        move(origin, new_name)
+                    except Exception as e:
+                        return f"Error when moving video file to last season: {e}"
 
-season_move()
+move_season_files()
