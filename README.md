@@ -2,7 +2,7 @@
 
 # Aninamer
 
-![aniamer](./icon.png)
+![aniamer](./image/icon.png)
 
 ### An automatic renaming software that works with RSS animation subscriptions and scraping software such as emby.
 
