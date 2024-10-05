@@ -7,7 +7,7 @@ from rename import rename
 # 创建系统托盘图标
 def create_tray_icon():
     # 从图片文件中加载图标
-    image = Image.open("./lib/icon.ico")
+    image = Image.open("./lib/favicon.ico")
 
     # 创建系统托盘菜单
     menu = (
