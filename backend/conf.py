@@ -48,3 +48,7 @@ create_conf()
 
 with open('./conf/config.toml', 'rb') as r:
     data = tomllib.load(r)
+
+def modify_conf(new_config):
+    with open('./conf/config.toml', 'w') as f:
+            f.write(dumps(new_config))

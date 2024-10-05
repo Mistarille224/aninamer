@@ -1,5 +1,9 @@
 # Aninamer
-![Aninamer](./image/icon.png)
+
+<center>
+<img src="./frontend/src/assets/logo.png" width = "512"  alt="Aninamer" />
+</center>
+
 ### 一个自动重命名软件，可以与RSS动画订阅和如emby等刮削软件配合使用。
 
 <a href="README.md">English README file
@@ -26,6 +30,7 @@
 
 6. 如果重命名没得到预期结果，可能是原来的名字和程序相性不好。你可以尝试动动脑筋在配置文件中添加特殊项(修改后立即生效)并把文件改回原名让程序重新重命名来解决问题。通常这是因为主标题被放在了[]中，需要你在配置文件的Special项里删除掉所有标题前面的字符，表示为把这些字符替换为`''`。如果需要手动修改，确保修改后的文件名不包含`[`,`]`,你的修改就不会被软件覆盖掉了。
 
-##　开发任务
+
+## 开发任务
 
 <a href="任务.md">任务列表
