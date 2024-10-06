@@ -55,7 +55,6 @@ def default_rules(name):
     name = sub(r'\((\d+)\)', lambda match: ' E' + match.group(1) + ' ', name)
     name = sub(r'\s(\d+)\s', lambda match: ' E' + match.group(1) + ' ', name)
     name = sub(r'(\d+)\-(\d+)', lambda match: ' E' + match.group(1) + ' ', name)
-    name = sub(r'(\D)\-(\D)', lambda match: match.group(1).replace('-', ' '), name)
     name = sub(r'\([^)]*\)', '', name)
     name = name.replace('  ', ' ').strip()
     name = sub(r'^\s*', '', name)
