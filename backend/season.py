@@ -44,5 +44,3 @@ def move_season_files():
                         move(origin, new_name)
                     except Exception as e:
                         return f"Error when moving video file to last season: {e}"
-
-move_season_files()

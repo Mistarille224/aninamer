@@ -4,7 +4,7 @@ from pathlib import Path
 
 def create_conf():
     # 引入配置文件
-    toml_path = Path('./conf/config.toml')
+    toml_path = Path('backend/conf/config.toml')
     if not toml_path.exists():
         mk_conf = Path('conf')
         mk_conf.mkdir(exist_ok=True)
@@ -46,9 +46,9 @@ def create_conf():
 
 create_conf()
 
-with open('./conf/config.toml', 'rb') as r:
+with open('backend/conf/config.toml', 'rb') as r:
     data = tomllib.load(r)
 
 def modify_conf(new_config):
-    with open('./conf/config.toml', 'w') as f:
+    with open('backend/conf/config.toml', 'w') as f:
             f.write(dumps(new_config))
