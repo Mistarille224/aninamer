@@ -5,7 +5,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[("lib\favicon.ico",".")],
+    datas=[("lib/favicon.ico",".")],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -31,7 +31,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['lib\icon.ico'],
+    icon=['lib/favicon.ico'],
     contents_directory='lib',
 )
 coll = COLLECT(
