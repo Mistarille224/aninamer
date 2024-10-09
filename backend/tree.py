@@ -82,11 +82,13 @@ def rename(direction=True):
                     if value:
                         src = path
                         dest = Path(parent_key) / value
+                    else:
+                        src = None
                 else:
                     src = Path(parent_key) / value
                     dest = path
                 
-                if src.exists() and src.is_file():
+                if src and src.exists() and src.is_file():
                     src.rename(dest)
 
 
