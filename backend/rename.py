@@ -28,6 +28,8 @@ def rename_files(files):
         if '[' in name:
             name = load_rules(name)
             new_name = default_rules(name)
+            if 'v2' in origin and new_name in files:
+                Path(new_name).unlink()
             try:
                 Path(origin).rename(Path(new_name))
             except:

@@ -1,7 +1,7 @@
 import pystray
 from PIL import Image
 import os
-from rename import rename
+from tree import rename
 
 
 # 创建系统托盘图标
@@ -12,6 +12,7 @@ def create_tray_icon():
     # 创建系统托盘菜单
     menu = (
         pystray.MenuItem("手动重命名", lambda: rename()),
+        pystray.MenuItem("还原所有文件名", lambda: rename(False)),
         pystray.MenuItem("点击打开config文件", lambda: open_app()),
         pystray.MenuItem("退出", lambda: exit_app())
     )

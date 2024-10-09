@@ -2,14 +2,14 @@ import logging
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 from time import sleep
-from rename import rename
+from tree import rename_with_tree
 from conf import data
 from season import move_season_files
 
 
 class RenameHandler(FileSystemEventHandler):
     def on_created(self, event):
-        rename()
+        rename_with_tree()
         move_season_files()
     def on_deleted(self, event):
         # 处理文件删除事件
