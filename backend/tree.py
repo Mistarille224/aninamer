@@ -83,12 +83,12 @@ def make_tree():
     save_tree_to_json(tree)
     return tree
 
-def rename(tree, direction=True, parent_key=''):
+def rename(direction=True, tree=make_tree(), parent_key=''):
         for key, value in tree.items():
             path = Path(parent_key) / key if parent_key else Path(key)
             if isinstance(value, list):
                 new_direction = direction and value[1]
-                rename(value[0], new_direction, path)
+                rename(new_direction, value[0], path)
             else:
                 if direction:
                     if value:
@@ -102,5 +102,3 @@ def rename(tree, direction=True, parent_key=''):
                 
                 if src and src.exists() and src.is_file():
                     src.rename(dest)
-
-rename(make_tree())
