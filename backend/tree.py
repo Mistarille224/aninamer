@@ -3,7 +3,7 @@ from pathlib import Path
 from re import sub
 from conf import data
 
-def rename(direction=True):
+def make_tree():
     def load_rules(name):
         before = []
         after = []
@@ -14,22 +14,21 @@ def rename(direction=True):
             name = name.replace(bfr, aft)
         return name
 
-    # 默认规则
     def default_rules(name):
         name = name.replace('(', '<').replace(')', '>')
         name = name.replace('[', '(').replace(']', ')').replace('_', ' ')
-        name = sub(r'\((\d+)\)', lambda match: ' E' + match.group(1) + ' ', name)
-        name = sub(r'\s(\d+)\s', lambda match: ' E' + match.group(1) + ' ', name)
-        name = sub(r'(\d+)\-(\d+)', lambda match: ' E' + match.group(0) + ' ', name)
-        name = sub(r'\s\-\s', ' ', name)
-        name = sub(r'\((\d+)v2\)', lambda match: ' E' + match.group(1) + ' - v2 ', name)
+        name = sub(r'\((\d+)\)',  r' E\1 ', name)
+        name = sub(r' (\d+) ',  r' E\1 ', name)
+        name = sub(r'(\d+)\-(\d+)', r' E\1-E\2 ', name)
+        name = name.replace(' - ',' ')
         name = name.replace('(v2)',' - v2 ')
-        name = sub(r'\(\sE(\d+)', lambda match: match.group(0).replace('(',''), name)
+        name = sub(r'\((\d+)v2\)', r' E\1 - v2 ', name)
+        name = sub(r'\( E(\d+)', r'E\1', name)
         name = sub(r'\([^)]*\)', '', name)
         name = name.replace('  ', ' ').strip()
         name = name.replace(' .', '.').replace(')', '')
         name = name.replace('<', '(').replace('>', ')')
-        name = sub(r'^\s+', '', name)
+        name = sub(r'^\s', '', name)
         return name
 
     def save_tree_to_json(tree):
@@ -72,12 +71,24 @@ def rename(direction=True):
                 result[path] = [inner_build_tree(Path(path), {}), True]
         return result
 
-    def rename_tree(tree, direction=True, parent_key=''):
+    json_path = Path('./conf/directory_tree.json')
+    if not json_path.exists():
+        save_tree_to_json({})
+
+    with json_path.open('r', encoding='utf-8') as f:
+        conf = json.load(f)
+
+    tree = build_tree([data["path"]["input_path"]], conf)
+
+    save_tree_to_json(tree)
+    return tree
+
+def rename(tree, direction=True, parent_key=''):
         for key, value in tree.items():
             path = Path(parent_key) / key if parent_key else Path(key)
             if isinstance(value, list):
                 new_direction = direction and value[1]
-                rename_tree(value[0], new_direction, path)
+                rename(value[0], new_direction, path)
             else:
                 if direction:
                     if value:
@@ -92,16 +103,4 @@ def rename(direction=True):
                 if src and src.exists() and src.is_file():
                     src.rename(dest)
 
-
-    json_path = Path('./conf/directory_tree.json')
-    if not json_path.exists():
-        save_tree_to_json({})
-
-    with json_path.open('r', encoding='utf-8') as f:
-        conf = json.load(f)
-
-    root = build_tree([data["path"]["input_path"]], conf)
-
-    save_tree_to_json(root)
-
-    rename_tree(root,direction)
+rename(make_tree())

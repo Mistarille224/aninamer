@@ -9,8 +9,17 @@ from season import move_season_files
 
 class RenameHandler(FileSystemEventHandler):
     def on_created(self, event):
-        rename()
-        move_season_files()
+        try:
+            rename()
+            # move_season_files()
+        except:
+            sleep(1)
+            try:
+                rename()
+                # move_season_files()
+            except Exception as e:
+                return f"Error when moving video file to last season: {e}"
+
     def on_deleted(self, event):
         # 处理文件删除事件
         pass
