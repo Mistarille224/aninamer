@@ -1,13 +1,14 @@
 import json
+from os.path import getctime
 from pathlib import Path
 from re import sub
 from conf import data
 
-def make_tree():
+def tree():
     def load_rules(name):
         before = []
         after = []
-        for sp in data["rules"]["special"]:
+        for sp in data['rules']['special']:
             before.append(str(sp[0]))
             after.append(str(sp[1]))
         for bfr, aft in zip(before, after):
@@ -39,36 +40,26 @@ def make_tree():
         def inner_build_tree(current_path, last_conf):
             tree = {}
             for item in current_path.iterdir():
-                if item.name in last_conf:
-                    if item.is_dir():
-                        tree[item.name] = [inner_build_tree(item, last_conf[item.name][0]), last_conf[item.name][1]]
+                if item.is_dir():
+                    if item.name in last_conf:
+                        tree[item.name] = [last_conf[item.name][0], inner_build_tree(item, last_conf[item.name][1])]
                     else:
-                        tree[item.name] = last_conf[item.name]
+                        tree[item.name] = [True, inner_build_tree(item, {})]
                 else:
-                    if item.is_dir():
-                        tree[item.name] = [inner_build_tree(item, {}), True]
+                    tag = f'{item.stat().st_size}/{getctime(item.resolve())}'
+                    if tag in last_conf:
+                        if item.name == last_conf[tag][2] and not default_rules(load_rules(last_conf[tag][1])) == last_conf[tag][2]:
+                             item.rename(f'{item.parent.resolve()}/{default_rules(load_rules(last_conf[tag][1]))}')
+                        tree[tag] = [last_conf[tag][0], last_conf[tag][1], default_rules(load_rules(last_conf[tag][1]))]
                     else:
-                        def find_key_with_value(d, target_value):
-                            for k, v in d.items():
-                                if isinstance(v, list):
-                                    result = find_key_with_value(v[0], target_value)
-                                    if result:
-                                        return result
-                                elif v == target_value:
-                                    return k
-                            return None
-                        result = find_key_with_value(conf, item.name)
-                        if result:
-                            tree[result] = item.name
-                        else:
-                            tree[item.name] = default_rules(load_rules(item.name)) if '[' in item.name else ''
+                        tree[tag] = [True, item.name, default_rules(load_rules(item.name)) if '[' in item.name else '']
             return tree
         result = {}
         for path in paths:
             if path in last_conf:
-                result[path] = [inner_build_tree(Path(path), last_conf[path][0]), last_conf[path][1]]
+                result[path] = [last_conf[path][0], inner_build_tree(Path(path), last_conf[path][1])]
             else:
-                result[path] = [inner_build_tree(Path(path), {}), True]
+                result[path] = [True, inner_build_tree(Path(path), {})]
         return result
 
     json_path = Path('./conf/directory_tree.json')
@@ -78,27 +69,27 @@ def make_tree():
     with json_path.open('r', encoding='utf-8') as f:
         conf = json.load(f)
 
-    tree = build_tree([data["path"]["input_path"]], conf)
+    tree = build_tree([data['path']['input_path']], conf)
 
     save_tree_to_json(tree)
     return tree
 
-def rename(direction=True, tree=make_tree(), parent_key=''):
-        for key, value in tree.items():
-            path = Path(parent_key) / key if parent_key else Path(key)
-            if isinstance(value, list):
-                new_direction = direction and value[1]
-                rename(new_direction, value[0], path)
-            else:
-                if direction:
-                    if value:
-                        src = path
-                        dest = Path(parent_key) / value
-                    else:
-                        src = None
-                else:
-                    src = Path(parent_key) / value
-                    dest = path
+# def rename(direction=True, tree=tree(), parent_key=''):
+#         for key, value in tree.items():
+#             path = Path(parent_key) / key if parent_key else Path(key)
+#             if isinstance(value[1], dict):
+#                 new_direction = direction and value[0]
+#                 rename(new_direction, value[1], path)
+#             else:
+#                 if direction and value[0]:
+#                     if value:
+#                         src = path
+#                         dest = Path(parent_key) / value
+#                     else:
+#                         src = None
+#                 else:
+#                     src = Path(parent_key) / value
+#                     dest = path
                 
-                if src and src.exists() and src.is_file():
-                    src.rename(dest)
+#                 if src and src.exists() and src.is_file():
+#                     src.rename(dest)
