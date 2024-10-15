@@ -1,43 +1,43 @@
-import logging
-from watchdog.events import FileSystemEventHandler
-from watchdog.observers import Observer
 from time import sleep
-from tree import rename
+from pathlib import Path
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+from tree import tree, save_tree_to_json, read_tree_from_json
+from rename import rename
 from conf import data
-from season import move_season_files
 
-
-class RenameHandler(FileSystemEventHandler):
+class FileHandler(FileSystemEventHandler):
     def on_created(self, event):
+        json_path = Path('./conf/directory_tree.json')
+        if not json_path.exists():
+            save_tree_to_json({})
+        tree(read_tree_from_json())
+
+class JsonHandler(FileSystemEventHandler):
+    def on_modified(self, event):
         try:
-            rename()
-            # move_season_files()
+            rename(True, read_tree_from_json())
         except:
             sleep(1)
-            try:
-                rename()
-                # move_season_files()
-            except Exception as e:
-                return f"Error when moving video file to last season: {e}"
+            rename(True, read_tree_from_json())
 
-    def on_deleted(self, event):
-        # 处理文件删除事件
-        pass
-
-    def on_modified(self, event):
-        # 处理文件修改事件
-        if '.' in event.src_path:
-            logging.info(f'File modified: {event.src_path}')
-    
 def watch():
-    # 监测的文件夹路径
+    watch_json = Observer()
+    watch_json.schedule(JsonHandler(), "./conf", recursive=False)
+
+    watch_file = Observer()
     input_path = rf'{data["path"]["input_path"]}'
-    observer = Observer()
-    event_handler = RenameHandler()
-    observer.schedule(event_handler, input_path, True)
-    observer.start()
+    watch_file.schedule(FileHandler(), input_path, recursive=True)
+
+    watch_json.start()
+    watch_file.start()
+
     try:
         while True:
-            sleep(20)
+            sleep(1)
     except KeyboardInterrupt:
-        observer.stop()
+        watch_json.stop()
+        watch_file.stop()
+
+    watch_json.join()
+    watch_file.join()

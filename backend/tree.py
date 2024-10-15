@@ -1,10 +1,21 @@
 import json
 from os.path import getctime
+from os import fsync
 from pathlib import Path
 from re import sub
 from conf import data
 
-def tree():
+def read_tree_from_json():
+    with Path("./conf/directory_tree.json").open('r', encoding='utf-8') as f:
+        conf = json.load(f)
+        return conf
+
+def save_tree_to_json(tree):
+    with open('./conf/directory_tree.json', 'w', encoding='utf-8') as f:
+        json.dump(tree, f, ensure_ascii=False, indent=4)
+        fsync(f.fileno())
+
+def tree(conf):
     def load_rules(name):
         before = []
         after = []
@@ -32,10 +43,6 @@ def tree():
         name = sub(r'^\s', '', name)
         return name
 
-    def save_tree_to_json(tree):
-        with open('./conf/directory_tree.json', 'w', encoding='utf-8') as f:
-            json.dump(tree, f, ensure_ascii=False, indent=4)
-
     def build_tree(paths, last_conf):
         def inner_build_tree(current_path, last_conf):
             tree = {}
@@ -62,34 +69,7 @@ def tree():
                 result[path] = [True, inner_build_tree(Path(path), {})]
         return result
 
-    json_path = Path('./conf/directory_tree.json')
-    if not json_path.exists():
-        save_tree_to_json({})
-
-    with json_path.open('r', encoding='utf-8') as f:
-        conf = json.load(f)
-
     tree = build_tree([data['path']['input_path']], conf)
 
     save_tree_to_json(tree)
-    return tree
 
-# def rename(direction=True, tree=tree(), parent_key=''):
-#         for key, value in tree.items():
-#             path = Path(parent_key) / key if parent_key else Path(key)
-#             if isinstance(value[1], dict):
-#                 new_direction = direction and value[0]
-#                 rename(new_direction, value[1], path)
-#             else:
-#                 if direction and value[0]:
-#                     if value:
-#                         src = path
-#                         dest = Path(parent_key) / value
-#                     else:
-#                         src = None
-#                 else:
-#                     src = Path(parent_key) / value
-#                     dest = path
-                
-#                 if src and src.exists() and src.is_file():
-#                     src.rename(dest)
