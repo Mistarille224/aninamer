@@ -1,8 +1,9 @@
 # Aninamer
 
 <center>
-<img src="./frontend/src/assets/logo.png" width = "512"  alt="Aninamer" />
+<img src="./image/icon.svg" width = "512"  alt="Aninamer" />
 </center>
+
 
 ### 一个自动重命名软件，可以与RSS动画订阅和如emby等刮削软件配合使用。
 

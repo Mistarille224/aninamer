@@ -1,8 +1,9 @@
 # Aninamer
 
 <center>
-<img src="./frontend/src/assets/logo.png" width = "512"  alt="Aninamer" />
+<img src="./image/icon.svg" width = "512" width = "512"  alt="Aninamer" />
 </center>
+
 
 ### An automatic renaming software that works with RSS animation subscriptions and scraping software such as emby.
 

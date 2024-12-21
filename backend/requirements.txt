@@ -1,0 +1,5 @@
+watchdog
+flask
+flask_cors
+flask_socketio
+gunicorn
