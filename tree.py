@@ -5,8 +5,8 @@ import re
 from datetime import datetime,timedelta
 from conf import config
 
-TREE_PATH = Path(__file__).parent / 'conf' / 'directory_tree.json'
-DELETED_TREE_PATH = Path(__file__).parent / 'conf' / 'deleted_tree.json'
+TREE_PATH = Path('./conf/directory_tree.json')
+DELETED_TREE_PATH = Path('./conf/deleted_tree.json')
 
 def read_tree(path=TREE_PATH):
     with path.open('r', encoding='utf-8') as f:
@@ -101,10 +101,11 @@ def tree():
     modified_part = combine_items(added_part, deleted_part)
     for key in new_deleted_tree:
         if key in modified_part:
-            if new_deleted_tree[key][2]:
+            if len(new_deleted_tree[key]) == 3:
                 new_deleted_tree[key][2] = datetime.now().isoformat()
             else:
                 new_deleted_tree[key].append(datetime.now().isoformat())
+        new_deleted_tree[key][2] = last_deleted_tree[key][2]
         if key in new_tree:
             if datetime.now() - datetime.fromisoformat(new_deleted_tree[key][2]) >= timedelta(days=7):
                 del new_deleted_tree[key]

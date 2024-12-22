@@ -1,12 +1,13 @@
 import json
 from pathlib import Path
 
-CONFIG_PATH = Path(__file__).parent / 'conf' / 'config.json'
+CONFIG_PATH = Path('./conf/paths.json')
 
 def ensure_config_exists():
+    Path('./video').mkdir(exist_ok=True)
     if not CONFIG_PATH.exists():
         CONFIG_PATH.parent.mkdir(exist_ok=True)
-        save_config({'paths': ['']})
+        save_config({'paths': ['./video']})
 
 def load_config():
     with CONFIG_PATH.open('r', encoding='utf-8') as f:
