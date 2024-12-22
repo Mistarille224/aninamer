@@ -3,7 +3,7 @@
 .vscode/
 __pycache__
 
-log
+lib/deleted_tree.json
 pyinstaller.bat
 build
 dist
