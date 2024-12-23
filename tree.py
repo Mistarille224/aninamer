@@ -24,7 +24,7 @@ def apply_rules(name):
     name = re.sub(r'\[(\d+)\]', r' E\1 ', name)
     name = re.sub(r' (\d+) ', r' E\1 ', name)
     name = re.sub(r'(\d+)-(\d+)', r' E\1-E\2 ', name)
-    name = name.replace(' - ', ' ').replace('(v2)', ' - v2 ')
+    name = name.replace(' - ', ' ').replace('[v2]', ' - v2 ')
     name = re.sub(r'\[(\d+)v2\]', r' E\1 - v2 ', name)
     name = re.sub(r'\[ E(\d+)', r' E\1', name)
     name = re.sub(r'\[[^]]*\]', '', name).replace(']', '')
