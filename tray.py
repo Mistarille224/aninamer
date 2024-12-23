@@ -12,11 +12,11 @@ def exit_app():
 def create_tray_icon():
     image = Image.open("./lib/icon.ico")
     menu = (
-        pystray.MenuItem("手动重命名", lambda: rename(True,read_tree())),
-        pystray.MenuItem("还原所有文件", lambda: rename(False,read_tree())),
-        pystray.MenuItem("点击打开配置文件", lambda: open_app()),
-        pystray.MenuItem("退出", lambda: exit_app())
+        pystray.MenuItem("Rename", lambda: rename(True,read_tree())),
+        pystray.MenuItem("Recover", lambda: rename(False,read_tree())),
+        pystray.MenuItem("Click to open config file", lambda: open_app()),
+        pystray.MenuItem("Exit", lambda: exit_app())
     )
     tray_icon = pystray.Icon("app_name", image, "aninamer", menu)
-    tray_icon.tooltip = "应用程序"
+    tray_icon.tooltip = "Application"
     tray_icon.run()

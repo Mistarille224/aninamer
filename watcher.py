@@ -9,7 +9,12 @@ class FileHandler(FileSystemEventHandler):
     def on_created(self, event):
         tree()
         rename(True, read_tree())
-
+    def on_deleted(self, event):
+        tree()
+        rename(True, read_tree())
+    def on_modified(self, event):
+        tree()
+        rename(True, read_tree())
 def watch():
     watch_file = Observer()
     input_paths = config["paths"]

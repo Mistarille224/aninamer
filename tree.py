@@ -2,6 +2,7 @@ import json
 import os
 from pathlib import Path
 import re
+import xxhash
 from datetime import datetime,timedelta
 from conf import config
 
@@ -96,22 +97,25 @@ def tree():
     new_tree = build_tree(last_tree)
 
     new_deleted_tree = extract_items(new_tree, last_tree)
-    added_part = extract_items(last_deleted_tree, new_deleted_tree)
-    deleted_part = extract_items(new_deleted_tree, last_deleted_tree)
-    modified_part = combine_items(added_part, deleted_part)
-    for key in new_deleted_tree:
-        if key in modified_part:
-            if len(new_deleted_tree[key]) == 3:
-                new_deleted_tree[key][2] = datetime.now().isoformat()
-            else:
-                new_deleted_tree[key].append(datetime.now().isoformat())
-        new_deleted_tree[key][2] = last_deleted_tree[key][2]
-        if key in new_tree:
-            if datetime.now() - datetime.fromisoformat(new_deleted_tree[key][2]) >= timedelta(days=7):
-                del new_deleted_tree[key]
+    for key in list(new_deleted_tree.keys()):
+        if key not in list(last_deleted_tree.keys()):
+            timestamp = datetime.now().isoformat()
         else:
-            if datetime.now() - datetime.fromisoformat(new_deleted_tree[key][2]) >= timedelta(days=30):
-                del new_deleted_tree[key]
+            new_hash = xxhash.xxh3_64(str(new_deleted_tree[key][1])).hexdigest()
+            last_hash = xxhash.xxh3_64(str(last_deleted_tree[key][1])).hexdigest()
+            if new_hash != last_hash:
+                timestamp = datetime.now().isoformat()
+            else:
+                timestamp = last_deleted_tree[key][2]
+        if len(new_deleted_tree[key]) == 3:
+            new_deleted_tree[key][2] = timestamp
+        else:
+            new_deleted_tree[key].append(timestamp)
+        time_diff = datetime.now() - datetime.fromisoformat(new_deleted_tree[key][2])
+        if key in new_tree and time_diff >= timedelta(days=7):
+            del new_deleted_tree[key]
+        elif key not in new_tree and time_diff >= timedelta(days=30):
+            del new_deleted_tree[key]
     save_tree(new_deleted_tree, DELETED_TREE_PATH)
 
     save_tree(new_tree, TREE_PATH)
