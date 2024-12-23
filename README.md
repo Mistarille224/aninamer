@@ -1,8 +1,7 @@
 # Aninamer
 
-<center>
-<img src="./image/icon.svg" width="512" alt="Aninamer" />
-</center>
+<img src="./image/icon.svg" width="512" alt="Aninamer" align="center"/>
+
 
 ### An automatic renaming software that can optimize the collaboration with RSS anime subscriptions and scraping software such as emby.
 
