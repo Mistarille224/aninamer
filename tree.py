@@ -80,7 +80,7 @@ def extract_items(new, last):
 
 def combine_items(last, deleted_items):
     for key in deleted_items:
-        if key in last:
+        if key in last and isinstance(key, list):
             combine_items(last[key][1],deleted_items[key][1])
         else:
             last[key] = deleted_items[key]
@@ -120,3 +120,5 @@ def tree():
     save_tree(new_deleted_tree, DELETED_TREE_PATH)
 
     save_tree(new_tree, TREE_PATH)
+
+tree()
