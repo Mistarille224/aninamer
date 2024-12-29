@@ -120,5 +120,3 @@ def tree():
     save_tree(new_deleted_tree, DELETED_TREE_PATH)
 
     save_tree(new_tree, TREE_PATH)
-
-tree()
