@@ -10,4 +10,4 @@ RUN pip3 install --no-cache-dir watchdog xxhash
 COPY commond.sh /bin/aninamer
 RUN mkdir -p /app/video
 
-CMD ["aninamer","start"]
+CMD ["python","main.py"]
