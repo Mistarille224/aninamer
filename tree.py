@@ -47,7 +47,7 @@ def build_tree(last_conf):
                 sub_tree = inner_build_tree(item,last_conf.get(item.name,[True,{}])[1])
                 tree[item.name] = [last_conf.get(item.name,[True])[0],sub_tree]
             else:
-                identifier = f'{xxh3_64(item.read_bytes()).hexdigest()}'
+                identifier = f'{item.stat().st_size}/{item.stat().st_mtime}'
                 if identifier in last_conf:
                     original_name = last_conf[identifier][2]
                     formatted_name = apply_rules(last_conf[identifier][1])
