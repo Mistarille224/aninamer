@@ -1,4 +1,11 @@
 #!/bin/sh
+
+start_Aninamer() {
+    cd /app
+    python main.py
+}
+
+
 rename(){
     cd /app
     python -c "from rename import rename; from tree import read_tree; rename(True, read_tree())"
@@ -15,6 +22,9 @@ show_help(){
 }
 
 case "$1" in
+    start)
+        start_Aninamer
+        ;;
     rename)
         rename
         ;;

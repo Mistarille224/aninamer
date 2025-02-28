@@ -8,6 +8,7 @@ COPY tree.py tree.py
 COPY watcher.py watcher.py
 RUN pip3 install --no-cache-dir watchdog xxhash
 COPY commond.sh /bin/aninamer
+RUN chmod +x /bin/aninamer
 RUN mkdir -p /app/video
 
-CMD ["python","main.py"]
+CMD ["aninamer","start"]

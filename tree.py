@@ -1,8 +1,7 @@
 import json
-import os
 from pathlib import Path
 import re
-import xxhash
+from xxhash import xxh3_64
 from datetime import datetime,timedelta
 from conf import config
 
@@ -17,7 +16,6 @@ def save_tree(tree,path):
     if tree:
         with path.open('w',encoding='utf-8') as f:
             json.dump(tree,f,ensure_ascii=False,indent=4)
-            os.fsync(f.fileno())
 
 def apply_rules(name):
     if ']' in name:
@@ -49,7 +47,7 @@ def build_tree(last_conf):
                 sub_tree = inner_build_tree(item,last_conf.get(item.name,[True,{}])[1])
                 tree[item.name] = [last_conf.get(item.name,[True])[0],sub_tree]
             else:
-                identifier = f'{item.stat().st_size}/{os.path.getctime(item.resolve())}'
+                identifier = f'{xxh3_64(item.read_bytes()).hexdigest()}'
                 if identifier in last_conf:
                     original_name = last_conf[identifier][2]
                     formatted_name = apply_rules(last_conf[identifier][1])
@@ -103,8 +101,8 @@ def tree():
         if key not in list(last_deleted_tree.keys()):
             timestamp = datetime.now().isoformat()
         else:
-            new_hash = xxhash.xxh3_64(str(new_deleted_tree[key][1])).hexdigest()
-            last_hash = xxhash.xxh3_64(str(last_deleted_tree[key][1])).hexdigest()
+            new_hash = xxh3_64(str(new_deleted_tree[key][1])).hexdigest()
+            last_hash = xxh3_64(str(last_deleted_tree[key][1])).hexdigest()
             if new_hash != last_hash:
                 timestamp = datetime.now().isoformat()
             else:
